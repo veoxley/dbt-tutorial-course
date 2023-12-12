@@ -50,7 +50,7 @@ models:
           - not_null:
               where: "returned_at IS NOT NULL OR status = 'Complete'"
 
-      - name: num_of_items_ordered
+      - name: num_items_ordered
         description: "Number of items in the order"
         tests:
           - not_null

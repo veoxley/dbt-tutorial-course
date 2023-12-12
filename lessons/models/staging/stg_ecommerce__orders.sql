@@ -17,7 +17,7 @@ SELECT
 
     --Other Columns
     status,
-    num_of_item AS num_of_items_ordered
+    num_of_item AS num_items_ordered
 
     --Unused Columns
         --gender,
