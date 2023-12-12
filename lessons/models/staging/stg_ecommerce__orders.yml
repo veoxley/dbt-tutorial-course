@@ -12,6 +12,8 @@ models:
 
       - name: user_id
         description: ""
+        tests:
+          - not_null
 
       - name: status
         description: ""
@@ -27,15 +29,28 @@ models:
 
       - name: created_at
         description: "When the order was created"
+        tests:
+          - not_null
 
       - name: returned_at
         description: "When the order was returned"
+        tests:
+          - not_null:
+              where: "status = 'Returned'"
 
       - name: shipped_at
         description: "When the order was shipped"
+        tests:
+          - not_null:
+              where: "delivered_at IS NOT NULL OR status = 'Shipped'"
 
       - name: delivered_at
         description: "When the order was delivered"
+        tests:
+          - not_null:
+              where: "returned_at IS NOT NULL OR status = 'Complete'"
 
       - name: num_of_items_ordered
         description: "Number of items in the order"
+        tests:
+          - not_null
