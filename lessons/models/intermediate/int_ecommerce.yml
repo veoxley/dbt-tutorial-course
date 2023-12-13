@@ -64,3 +64,9 @@ models:
           - not_null
           - dbt_utils.expression_is_true:
               expression: "= (product_retail_price - item_sale_price)"
+  - name: int_ecommerce__first_order_created
+    description: ""
+    columns:
+      - *user_id #reuse entire user id definition from anchor
+      # - <<: *user_id #- <<: *user_id would resue the name and test, but you could add a new description
+      #   description: "New description"
