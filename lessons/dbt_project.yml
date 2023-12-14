@@ -38,6 +38,8 @@ models:
         columns: true
      # Table deletes 168 hours (7 days) after creation
     +hours_to_expiration: 168
+    intermediate:
+      +tags: ['my_tag_one', 'my_other_tag']
 
 tests:
   lessons:
