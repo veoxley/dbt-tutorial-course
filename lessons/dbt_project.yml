@@ -23,6 +23,11 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+#  runs a hook at start of a run. "get_brand_name()" is a hook create in macro/macro_get_brand_name.sql
+    # this creates a routine in big query, viewable in the schema explorer
+#  other hook run options are available. on-run-end and others
+on-run-start:
+  - "{{ get_brand_name() }}"
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -36,8 +41,15 @@ models:
     +persist_docs:
         relation: true
         columns: true
-     # Table deletes 168 hours (7 days) after creation
-    +hours_to_expiration: 168
+     # Table deletes 168 hours (7 days) after creation (or 1 hour if its a CI test)
+     # https://docs.getdbt.com/reference/dbt-jinja-functions/target
+     # https://docs.getdbt.com/docs/build/custom-schemas
+        # If we ran dbt, using a profile called production that had schema: dbt_production it would create 3 separate dbt_production schemas
+        # suffixed with _staging / _intermediate / _marts - but not for any other profile!
+    +hours_to_expiration: |
+      {% if target.name == 'test' %} 1
+      {% else %} 168
+      {% endif %}
     intermediate:
       +tags: ['my_tag_one', 'my_other_tag']
 
